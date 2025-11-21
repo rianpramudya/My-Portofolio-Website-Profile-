@@ -1,2 +1,2 @@
-# My-Portofolio-Website-Profil-
+# My-Portofolio-Website-Profile-
 Website Portofolio Pribadi
