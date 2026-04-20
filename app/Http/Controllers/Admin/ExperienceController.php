@@ -21,20 +21,24 @@ class ExperienceController extends Controller
     }
 
     public function store(Request $request)
-    {
-        // Validasi sesuai kolom tabel experiences
-        $request->validate([
-            'role' => 'required|string|max:255',
-            'company' => 'required|string|max:255',
-            'period' => 'required|string|max:255',
-            'type' => 'required|in:work,education', // Hanya boleh 'work' atau 'education'
-            'description' => 'required|string',
-        ]);
+{
+    $request->validate([
+        'role' => 'required|string|max:255',
+        'company' => 'required|string|max:255',
+        'period' => 'required|string|max:255',
+        'type' => 'required|in:work,education,organization',
+        'description' => 'required|string',
+        'cv_descriptions' => 'nullable|array',
+    ]);
 
-        Experience::create($request->all());
-
-        return redirect()->route('admin.experiences.index')->with('success', 'Data pengalaman berhasil ditambahkan!');
+    $data = $request->all();
+    if (isset($data['cv_descriptions'])) {
+        $data['cv_descriptions'] = array_values(array_filter($data['cv_descriptions']));
     }
+
+    Experience::create($data);
+    return redirect()->route('admin.experiences.index')->with('success', 'Data berhasil ditambahkan!');
+}
 
     public function edit(Experience $experience)
     {
@@ -42,19 +46,26 @@ class ExperienceController extends Controller
     }
 
     public function update(Request $request, Experience $experience)
-    {
-        $request->validate([
-            'role' => 'required|string|max:255',
-            'company' => 'required|string|max:255',
-            'period' => 'required|string|max:255',
-            'type' => 'required|in:work,education',
-            'description' => 'required|string',
-        ]);
+{
+    $request->validate([
+        'role' => 'required|string|max:255',
+        'company' => 'required|string|max:255',
+        'period' => 'required|string|max:255',
+        'type' => 'required|in:work,education,organization',
+        'description' => 'required|string',
+        'cv_descriptions' => 'nullable|array',
+    ]);
 
-        $experience->update($request->all());
-
-        return redirect()->route('admin.experiences.index')->with('success', 'Data pengalaman berhasil diperbarui!');
+    $data = $request->all();
+    if (isset($data['cv_descriptions'])) {
+        $data['cv_descriptions'] = array_values(array_filter($data['cv_descriptions']));
+    } else {
+        $data['cv_descriptions'] = null;
     }
+
+    $experience->update($data);
+    return redirect()->route('admin.experiences.index')->with('success', 'Data diperbarui!');
+}
 
     public function destroy(Experience $experience)
     {

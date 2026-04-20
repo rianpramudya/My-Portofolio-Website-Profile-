@@ -6,11 +6,12 @@
 <div class="bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden">
     <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
         <h3 class="font-bold text-slate-800">Riwayat Pengalaman & Pendidikan</h3>
-        <a href="{{ route('admin.experiences.create') }}" class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-indigo-700 transition flex items-center gap-2">
+        <a href="{{ route('admin.experiences.create') }}"
+            class="bg-indigo-600 text-white px-4 py-2 rounded-lg text-sm font-bold hover:bg-indigo-700 transition flex items-center gap-2">
             <i class="ph-bold ph-plus"></i> Tambah Baru
         </a>
     </div>
-    
+
     <div class="overflow-x-auto">
         <table class="w-full text-sm text-left">
             <thead class="text-xs text-slate-500 uppercase bg-slate-50 border-b border-slate-100">
@@ -30,17 +31,25 @@
                     <td class="px-6 py-3">{{ $item->period }}</td>
                     <td class="px-6 py-3">
                         @if($item->type == 'work')
-                            <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded text-xs font-bold">Pekerjaan</span>
+                        <span class="px-2 py-1 bg-blue-50 text-blue-600 rounded text-xs font-bold">Pekerjaan</span>
+                        @elseif($item->type == 'education')
+                        <span
+                            class="px-2 py-1 bg-emerald-50 text-emerald-600 rounded text-xs font-bold">Pendidikan</span>
                         @else
-                            <span class="px-2 py-1 bg-emerald-50 text-emerald-600 rounded text-xs font-bold">Pendidikan</span>
+                        <span class="px-2 py-1 bg-purple-50 text-purple-600 rounded text-xs font-bold">Organisasi</span>
                         @endif
                     </td>
                     <td class="px-6 py-3 text-right">
                         <div class="flex justify-end gap-2">
-                            <a href="{{ route('admin.experiences.edit', $item->id) }}" class="p-2 bg-amber-50 text-amber-600 rounded hover:bg-amber-100 transition"><i class="ph-bold ph-pencil-simple"></i></a>
-                            <form action="{{ route('admin.experiences.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Hapus data ini?')">
+                            <a href="{{ route('admin.experiences.edit', $item->id) }}"
+                                class="p-2 bg-amber-50 text-amber-600 rounded hover:bg-amber-100 transition"><i
+                                    class="ph-bold ph-pencil-simple"></i></a>
+                            <form action="{{ route('admin.experiences.destroy', $item->id) }}" method="POST"
+                                onsubmit="return confirm('Hapus data ini?')">
                                 @csrf @method('DELETE')
-                                <button type="submit" class="p-2 bg-red-50 text-red-600 rounded hover:bg-red-100 transition"><i class="ph-bold ph-trash"></i></button>
+                                <button type="submit"
+                                    class="p-2 bg-red-50 text-red-600 rounded hover:bg-red-100 transition"><i
+                                        class="ph-bold ph-trash"></i></button>
                             </form>
                         </div>
                     </td>

@@ -13,27 +13,45 @@ class PortfolioController extends Controller
 {
     public function index()
     {
-        // Ambil data profile (kita ambil baris pertama saja karena single user)
+        // Ambil data profile
         $profile = Profile::first();
 
-        // Jika profile belum ada (misal database kosong), kita buat object dummy agar tidak error
         if (!$profile) {
             $profile = new Profile([
-                'name' => 'Nama Anda',
-                'headline' => 'Web Developer',
-                'about_text' => 'Halo, selamat datang di website portofolio saya. Silakan login ke admin untuk mengedit ini.',
-                'email' => 'email@contoh.com',
+                'name' => 'Rian Pramudya Amanda',
+                'headline' => 'Full Stack Web Developer',
+                'about_text' => 'Halo, selamat datang di website portofolio saya.',
+                'email' => 'pramudyaamanda88@gmail.com',
             ]);
         }
 
-        // Ambil data lainnya
+        // Ambil data proyek & layanan
         $projects = Project::latest()->take(6)->get();
         $skills = Skill::all()->groupBy('category');
         $services = Service::all();
-        $experiences = Experience::where('type', 'work')->latest()->get();
+
+        // --- MODIFIKASI BAGIAN INI ---
+
+        // 1. Ambil semua pengalaman (untuk counter/statistik di Hero Section)
+        $experiences = Experience::all();
+
+        // 2. Pisahkan berdasarkan kategori (untuk timeline di bawah)
+        $work_experiences = Experience::where('type', 'work')->latest()->get();
         $educations = Experience::where('type', 'education')->latest()->get();
+        $organizations = Experience::where('type', 'organization')->latest()->get();
+
+        // -----------------------------
 
         // Kirim semua variabel ke view 'home'
-        return view('home', compact('projects', 'skills', 'services', 'experiences', 'educations', 'profile'));
+        return view('home', compact(
+            'projects',
+            'skills',
+            'services',
+            'profile',
+            'experiences',        // Untuk statistik "+ Posisi Kerja"
+            'work_experiences',   // Untuk timeline pekerjaan
+            'educations',         // Untuk timeline pendidikan
+            'organizations'       // Untuk timeline organisasi
+        ));
     }
 }

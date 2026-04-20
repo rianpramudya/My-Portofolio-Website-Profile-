@@ -14,7 +14,12 @@ class Project extends Model
         'title', 
         'category', 
         'description', 
+        'cv_descriptions',
         'image', 
         'link_url'
+    ];
+
+    protected $casts = [
+        'cv_descriptions' => 'array',
     ];
 }
