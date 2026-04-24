@@ -28,9 +28,18 @@ class ProjectController extends Controller
             'description' => 'required',
             'image' => 'nullable|image|max:2048',
             'link_url' => 'nullable|url',
+            'cv_descriptions' => 'nullable|array', // Validasi array
+            'cv_descriptions.*' => 'nullable|string' // Tiap item array harus string
         ]);
 
         $data = $request->all();
+
+        // Bersihkan array dari input yang kosong/null
+        if (isset($data['cv_descriptions'])) {
+            $data['cv_descriptions'] = array_filter($data['cv_descriptions'], function($value) {
+                return !is_null($value) && $value !== '';
+            });
+        }
 
         if ($request->hasFile('image')) {
             $data['image'] = $request->file('image')->store('projects', 'public');
@@ -54,9 +63,23 @@ class ProjectController extends Controller
             'description' => 'required',
             'image' => 'nullable|image|max:2048',
             'link_url' => 'nullable|url',
+            'cv_descriptions' => 'nullable|array',
+            'cv_descriptions.*' => 'nullable|string'
         ]);
 
         $data = $request->all();
+
+        // Bersihkan array dari input yang kosong
+        if (isset($data['cv_descriptions'])) {
+            $data['cv_descriptions'] = array_filter($data['cv_descriptions'], function($value) {
+                return !is_null($value) && $value !== '';
+            });
+            // Re-index array (penting untuk JSON)
+            $data['cv_descriptions'] = array_values($data['cv_descriptions']);
+        } else {
+            // Jika kosong, set ke null
+            $data['cv_descriptions'] = null;
+        }
 
         if ($request->hasFile('image')) {
             if ($project->image) {

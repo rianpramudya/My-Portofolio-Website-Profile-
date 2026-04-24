@@ -11,7 +11,7 @@ class Experience extends Model
 
     protected $fillable = ['role', 'company', 'period', 'description', 'type', 'cv_descriptions'];
 
-protected $casts = [
-    'cv_descriptions' => 'array',
-];
+    protected $casts = [
+        'cv_descriptions' => 'array',
+    ];
 }
