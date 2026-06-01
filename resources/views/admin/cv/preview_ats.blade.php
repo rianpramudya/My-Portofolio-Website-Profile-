@@ -2,19 +2,18 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <title>CV ATS - {{ $profile->name }}</title>
+    <title>CV ATS - {{ $profile->name ?? 'Nama Belum Diisi' }}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         /* 1. Pengaturan Kertas Formal (A4) */
         @page {
             size: A4;
-            /* Memberikan margin 1.5cm di setiap sisi kertas (Atas, Bawah, Kiri, Kanan) */
+            /* Memberikan margin 1.5cm di setiap sisi kertas */
             margin: 1.5cm; 
         }
 
         /* 2. Pengaturan Font & Tampilan Dasar */
         body {
-            /* Menggunakan Times New Roman sesuai permintaan */
             font-family: "Times New Roman", Times, serif;
             background: #f3f4f6;
             color: #111827;
@@ -27,15 +26,18 @@
         .print-area {
             width: 210mm;
             min-height: 297mm;
-            padding: 1.5cm; /* Menyamakan padding preview dengan margin print */
+            padding: 1.5cm; 
             margin: 20px auto;
             background: white;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
         }
 
-        /* 3. Logika Khusus Cetak/Save PDF */
+        /* 3. Logika Khusus Cetak/Save PDF (DIPERBAIKI UNTUK MAC/SAFARI) */
         @media print {
-            body {
+            /* Mencegah Safari Mac me-render halaman blank putih */
+            html, body {
+                height: auto !important;
+                overflow: visible !important;
                 background: white !important;
                 -webkit-print-color-adjust: exact !important;
                 print-color-adjust: exact !important;
@@ -47,8 +49,10 @@
 
             .print-area {
                 width: 100% !important;
+                height: auto !important;
+                overflow: visible !important;
                 margin: 0 !important;
-                padding: 0 !important; /* Padding dinonaktifkan karena sudah ada margin @page */
+                padding: 0 !important; 
                 box-shadow: none !important;
                 border: none !important;
             }
@@ -58,7 +62,7 @@
                 page-break-after: avoid; 
             }
 
-            /* Memastikan blok pengalaman tidak terpotong di tengah kalimat jika memungkinkan */
+            /* Memastikan blok pengalaman tidak terpotong di tengah kalimat */
             .experience-item {
                 page-break-inside: auto;
                 margin-bottom: 1rem;
@@ -86,20 +90,42 @@
 
     <div class="print-area">
         <div class="text-center mb-6">
-            <h1 class="font-bold uppercase tracking-tight text-slate-900">{{ $profile->name }}</h1>
-            <p class="font-medium text-slate-700">{{ $profile->headline }}</p>
+            <h1 class="font-bold uppercase tracking-tight text-slate-900">{{ $profile->name ?? 'Nama Belum Diisi' }}</h1>
+            <p class="font-medium text-slate-700">{{ $profile->headline ?? '' }}</p>
             <div class="mt-1 flex flex-wrap justify-center gap-x-3 text-slate-800">
-                <span>{{ $profile->email }}</span>
+                <span>{{ $profile->email ?? '' }}</span>
                 <span>|</span>
-                <span>{{ str_replace(['https://www.', 'https://'], '', $profile->linkedin_link) }}</span>
+                <span>{{ str_replace(['https://www.', 'https://'], '', $profile->linkedin_link ?? '') }}</span>
                 <span>|</span>
-                <span>{{ str_replace(['https://www.', 'https://'], '', $profile->github_link) }}</span>
+                <span>{{ str_replace(['https://www.', 'https://'], '', $profile->github_link ?? '') }}</span>
             </div>
         </div>
 
         <div class="mb-4">
             <h2 class="font-bold uppercase tracking-wider text-slate-900">Professional Summary</h2>
-            <p class="text-justify text-slate-900">{{ $profile->about_text }}</p>
+            <p class="text-justify text-slate-900">{{ $profile->about_text ?? '' }}</p>
+        </div>
+
+        <div class="mb-4">
+            <h2 class="font-bold uppercase tracking-wider text-slate-900">Education</h2>
+            @foreach($educations as $edu)
+            <div class="experience-item mb-2">
+                <div class="flex justify-between items-start">
+                    <div>
+                        <h3 class="font-bold text-slate-900">{{ $edu->company }}</h3>
+                        <div class="italic text-slate-800">{{ $edu->role }}</div>
+                    </div>
+                    <span class="font-medium text-slate-800 whitespace-nowrap">{{ $edu->period }}</span>
+                </div>
+                @if(!empty($edu->cv_descriptions) && is_array($edu->cv_descriptions))
+                <ul class="list-disc pl-5 mt-1 text-slate-900 space-y-0.5">
+                    @foreach($edu->cv_descriptions as $point)
+                    <li>{{ $point }}</li>
+                    @endforeach
+                </ul>
+                @endif
+            </div>
+            @endforeach
         </div>
 
         <div class="mb-4">
@@ -170,28 +196,6 @@
                 </ul>
                 @else
                 <p class="mt-1 text-justify text-slate-900">{{ $project->description }}</p>
-                @endif
-            </div>
-            @endforeach
-        </div>
-
-        <div class="mb-4">
-            <h2 class="font-bold uppercase tracking-wider text-slate-900">Education</h2>
-            @foreach($educations as $edu)
-            <div class="experience-item mb-2">
-                <div class="flex justify-between items-start">
-                    <div>
-                        <h3 class="font-bold text-slate-900">{{ $edu->company }}</h3>
-                        <div class="italic text-slate-800">{{ $edu->role }}</div>
-                    </div>
-                    <span class="font-medium text-slate-800 whitespace-nowrap">{{ $edu->period }}</span>
-                </div>
-                @if(!empty($edu->cv_descriptions) && is_array($edu->cv_descriptions))
-                <ul class="list-disc pl-5 mt-1 text-slate-900 space-y-0.5">
-                    @foreach($edu->cv_descriptions as $point)
-                    <li>{{ $point }}</li>
-                    @endforeach
-                </ul>
                 @endif
             </div>
             @endforeach
