@@ -11,6 +11,6 @@ class Profile extends Model
 
     protected $fillable = [
         'name', 'headline', 'about_text', 'cv_link', 
-        'avatar', 'email', 'github_link', 'linkedin_link'
+        'avatar', 'email','phone', 'github_link', 'linkedin_link'
     ];
 }

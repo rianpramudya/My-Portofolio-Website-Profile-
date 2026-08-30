@@ -10,40 +10,39 @@ class CoverLetterController extends Controller
 {
     public function index()
     {
-        return view('admin.cover_letter.index');
+        $profile = Profile::first();
+        
+        // Teks default yang akan muncul di kotak input surat (Bisa diedit oleh user)
+        $defaultContent = "Dengan hormat,\n\nSaya menulis surat ini untuk menyampaikan ketertarikan saya melamar posisi [POSISI] di [PERUSAHAAN].\n\nSaya adalah seorang " . ($profile->headline ?? 'profesional') . " dengan antusiasme tinggi terhadap pengembangan teknologi. Dalam profil profesional saya, saya memiliki rekam jejak dalam membangun berbagai aplikasi yang skalabel dan efisien. Saya yakin latar belakang dan keahlian teknis saya dapat memberikan kontribusi positif bagi tim Anda.\n\nTerlampir dalam lamaran ini adalah Curriculum Vitae (CV) saya yang merinci riwayat pekerjaan, pendidikan, dan portofolio proyek saya. Saya sangat berharap dapat diberikan kesempatan wawancara untuk mendiskusikan bagaimana saya dapat berkontribusi bagi perusahaan Anda.\n\nTerima kasih atas waktu dan pertimbangan Anda.";
+
+        return view('admin.cover_letter.index', compact('defaultContent'));
     }
 
     public function generate(Request $request)
     {
         $request->validate([
-            'recipient_name' => 'required',
-            'company_name' => 'required',
-            'company_address' => 'required', // Tambahan validasi
-            'position' => 'required',
+            'recipient_name'  => 'required|string',
+            'company_name'    => 'required|string',
+            'company_address' => 'required|string',
+            'position'        => 'required|string',
+            'letter_content'  => 'required|string', // Validasi untuk kotak isi surat
         ]);
 
         $profile = Profile::first();
         $today = date('d F Y');
 
-        // Template Surat Otomatis
-        // Saya hapus bagian "Yth..." di awal $content karena sudah ada di Header surat (Preview)
-        $content = "
-Dengan hormat,
+        // Ambil isi surat dari form
+        $content = $request->letter_content;
 
-Saya menulis surat ini untuk menyampaikan ketertarikan saya melamar posisi {$request->position} di {$request->company_name}.
-
-Saya adalah seorang {$profile->headline} dengan antusiasme tinggi terhadap pengembangan teknologi. Dalam profil profesional saya, saya memiliki rekam jejak dalam membangun berbagai aplikasi web yang skalabel dan efisien. Saya yakin latar belakang dan keahlian teknis saya dapat memberikan kontribusi positif bagi tim {$request->company_name}.
-
-Terlampir dalam lamaran ini adalah Curriculum Vitae (CV) saya yang merinci riwayat pekerjaan, pendidikan, dan portofolio proyek saya. Saya sangat berharap dapat diberikan kesempatan wawancara untuk mendiskusikan bagaimana saya dapat berkontribusi bagi perusahaan Anda.
-
-Terima kasih atas waktu dan pertimbangan Anda.
-        ";
+        // Otomatis ubah tulisan [POSISI] dan [PERUSAHAAN] dari isi teks dengan inputan form
+        $content = str_replace('[POSISI]', $request->position, $content);
+        $content = str_replace('[PERUSAHAAN]', $request->company_name, $content);
 
         return view('admin.cover_letter.preview', [
             'profile' => $profile,
-            'date' => $today,
+            'date'    => $today,
             'content' => $content,
-            'input' => $request->all()
+            'input'   => $request->all()
         ]);
     }
 }

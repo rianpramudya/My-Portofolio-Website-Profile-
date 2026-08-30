@@ -93,11 +93,20 @@
             <h1 class="font-bold uppercase tracking-tight text-slate-900">{{ $profile->name ?? 'Nama Belum Diisi' }}</h1>
             <p class="font-medium text-slate-700">{{ $profile->headline ?? '' }}</p>
             <div class="mt-1 flex flex-wrap justify-center gap-x-3 text-slate-800">
-                <span>{{ $profile->email ?? '' }}</span>
-                <span>|</span>
-                <span>{{ str_replace(['https://www.', 'https://'], '', $profile->linkedin_link ?? '') }}</span>
-                <span>|</span>
-                <span>{{ str_replace(['https://www.', 'https://'], '', $profile->github_link ?? '') }}</span>
+                @php
+                    $contacts = array_filter([
+                        $profile->phone ?? null,
+                        $profile->email ?? null,
+                        !empty($profile->linkedin_link) ? str_replace(['https://www.', 'https://'], '', $profile->linkedin_link) : null,
+                        !empty($profile->github_link) ? str_replace(['https://www.', 'https://'], '', $profile->github_link) : null,
+                    ]);
+                @endphp
+                @foreach($contacts as $contact)
+                    <span>{{ $contact }}</span>
+                    @if(!$loop->last)
+                        <span>|</span>
+                    @endif
+                @endforeach
             </div>
         </div>
 

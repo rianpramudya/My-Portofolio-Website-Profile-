@@ -24,7 +24,8 @@ class DashboardController extends Controller
                 'name' => 'Nama Anda',
                 'headline' => 'Web Developer',
                 'about_text' => 'Deskripsi singkat...',
-                'email' => 'email@anda.com'
+                'email' => 'email@anda.com',
+                'phone' => '081234567890', // <--- Default nomor HP jika baru pertama buat
             ]
         );
 
@@ -35,7 +36,8 @@ class DashboardController extends Controller
     public function updateProfile(Request $request)
     {
         $request->validate([
-            'name' => 'required',
+            'name'   => 'required|string|max:255',
+            'phone'  => 'nullable|string|max:20', // <--- Tambahkan validasi phone
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
