@@ -14,7 +14,7 @@
             @csrf
             <div>
                 <label class="text-xs font-bold text-slate-500 uppercase">Nama Skill</label>
-                <input type="text" name="name" placeholder="Contoh: Laravel" class="w-full rounded-lg border-slate-300 focus:ring-indigo-500 text-sm" required>
+                <input type="text" name="name" placeholder="Contoh: Communication" class="w-full rounded-lg border-slate-300 focus:ring-indigo-500 text-sm" required>
             </div>
             <div>
                 <label class="text-xs font-bold text-slate-500 uppercase">Kategori</label>
@@ -23,6 +23,7 @@
                     <option value="Frontend">Frontend</option>
                     <option value="Tools">Tools</option>
                     <option value="Design">Design</option>
+                    <option value="Soft Skill">Soft Skill</option>
                 </select>
             </div>
             <div>
@@ -31,7 +32,7 @@
             </div>
             <div>
                 <label class="text-xs font-bold text-slate-500 uppercase">Icon Class (Phosphor)</label>
-                <input type="text" name="icon" placeholder="ph-code" class="w-full rounded-lg border-slate-300 focus:ring-indigo-500 text-sm" required>
+                <input type="text" name="icon" placeholder="ph-users" class="w-full rounded-lg border-slate-300 focus:ring-indigo-500 text-sm" required>
                 <a href="https://phosphoricons.com/" target="_blank" class="text-[10px] text-indigo-500 hover:underline mt-1 block">Cari referensi ikon disini &rarr;</a>
             </div>
             <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded-lg font-bold hover:bg-indigo-700 transition shadow-lg shadow-indigo-200">Simpan</button>
@@ -57,7 +58,7 @@
                 
                 <!-- Tombol Aksi (Edit & Hapus) -->
                 <div class="flex items-center gap-2 opacity-100 sm:opacity-0 group-hover:opacity-100 transition-opacity">
-                    <!-- Tombol Edit (Mengarah ke Halaman Edit yang baru dibuat) -->
+                    <!-- Tombol Edit -->
                     <a href="{{ route('admin.skills.edit', $skill->id) }}" class="p-2 text-amber-500 hover:bg-amber-50 rounded-lg transition" title="Edit">
                         <i class="ph-bold ph-pencil-simple text-lg"></i>
                     </a>

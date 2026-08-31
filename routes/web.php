@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\ExperienceController;
 use App\Http\Controllers\Admin\SkillController;
 use App\Http\Controllers\Admin\ServiceController;
 use App\Http\Controllers\Admin\ContactController as AdminContactController;
+use App\Http\Controllers\Admin\CertificationController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
@@ -27,6 +28,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::resource('experiences', ExperienceController::class);
     Route::resource('skills', SkillController::class);
     Route::resource('services', ServiceController::class);
+    Route::resource('certifications', CertificationController::class);
 
     // Inbox Routes
     Route::get('/contacts', [AdminContactController::class, 'index'])->name('contacts.index');

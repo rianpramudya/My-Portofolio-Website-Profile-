@@ -27,6 +27,7 @@
                 <option value="Frontend" {{ $skill->category == 'Frontend' ? 'selected' : '' }}>Frontend</option>
                 <option value="Tools" {{ $skill->category == 'Tools' ? 'selected' : '' }}>Tools</option>
                 <option value="Design" {{ $skill->category == 'Design' ? 'selected' : '' }}>Design</option>
+                <option value="Soft Skill" {{ $skill->category == 'Soft Skill' ? 'selected' : '' }}>Soft Skill</option>
             </select>
         </div>
         

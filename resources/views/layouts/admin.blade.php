@@ -182,18 +182,19 @@
             </a>
 
             {{-- Grup: Konten --}}
-            <p class="px-3 pt-5 pb-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
-                Konten
-            </p>
+<p class="px-3 pt-5 pb-2 text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+    Konten
+</p>
 
-            @php
-                $navItems = [
-                    ['route' => 'admin.projects*',    'href' => 'admin.projects.index',    'icon' => 'ph-briefcase',        'label' => 'Projects'],
-                    ['route' => 'admin.experiences*', 'href' => 'admin.experiences.index', 'icon' => 'ph-graduation-cap',   'label' => 'Experience'],
-                    ['route' => 'admin.services*',    'href' => 'admin.services.index',    'icon' => 'ph-sparkle',          'label' => 'Services'],
-                    ['route' => 'admin.skills*',      'href' => 'admin.skills.index',      'icon' => 'ph-code',             'label' => 'Skills'],
-                ];
-            @endphp
+@php
+    $navItems = [
+        ['route' => 'admin.projects*',         'href' => 'admin.projects.index',         'icon' => 'ph-briefcase',        'label' => 'Projects'],
+        ['route' => 'admin.experiences*',      'href' => 'admin.experiences.index',      'icon' => 'ph-graduation-cap',   'label' => 'Experience'],
+        ['route' => 'admin.services*',         'href' => 'admin.services.index',         'icon' => 'ph-sparkle',          'label' => 'Services'],
+        ['route' => 'admin.skills*',           'href' => 'admin.skills.index',           'icon' => 'ph-code',             'label' => 'Skills'],
+        ['route' => 'admin.certifications*',   'href' => 'admin.certifications.index',   'icon' => 'ph-certificate',      'label' => 'Sertifikasi'],
+    ];
+@endphp
 
             @foreach($navItems as $item)
             <a href="{{ route($item['href']) }}"

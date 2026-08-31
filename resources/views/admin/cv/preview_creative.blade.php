@@ -249,10 +249,32 @@
                 </div>
             </div>
 
+            @if(count($certifications) > 0)
+            <div class="mb-7">
+                <h3 class="text-lg font-bold text-slate-900 border-b-2 border-indigo-100 pb-1.5 mb-4 uppercase tracking-wider flex items-center gap-2">
+                    <i class="ph-fill ph-certificate text-indigo-500"></i> Certifications
+                </h3>
+                <div class="space-y-4">
+                    @foreach($certifications as $cert)
+                    <div class="bg-slate-50 p-3 rounded-lg border border-slate-100">
+                        <div class="flex justify-between items-center mb-1">
+                            <h4 class="font-bold text-slate-800 text-sm">{{ $cert->title }}</h4>
+                            <span class="text-xs text-slate-500 font-medium">{{ $cert->date->format('M Y') }}</span>
+                        </div>
+                        <p class="text-sm text-indigo-600 font-semibold">{{ $cert->issuer }}</p>
+                        @if($cert->credential)
+                        <p class="text-xs text-slate-500 mt-1">Credential ID: {{ $cert->credential }}</p>
+                        @endif
+                    </div>
+                    @endforeach
+                </div>
+            </div>
+            @endif
+
             <div>
                 <h3
                     class="text-lg font-bold text-slate-900 border-b-2 border-indigo-100 pb-1.5 mb-4 uppercase tracking-wider flex items-center gap-2">
-                    <i class="ph-fill ph-rocket-launch text-indigo-500"></i> Key Projects
+                    <i class="ph-fill ph-rocket-launch text-indigo-500"></i> Projects
                 </h3>
                 <div class="grid grid-cols-2 gap-4">
                     @foreach($projects->take(4) as $project)

@@ -7,6 +7,7 @@ use App\Models\Profile;
 use App\Models\Experience;
 use App\Models\Skill;
 use App\Models\Project;
+use App\Models\Certification; // ← TAMBAHKAN INI
 use Illuminate\Http\Request;
 
 class CvController extends Controller
@@ -36,13 +37,14 @@ class CvController extends Controller
         // -------------------------
         
         $data = [
-            'profile' => $profile, // Gunakan variabel $profile yang sudah diamankan
+            'profile' => $profile,
             'experiences' => Experience::orderBy('created_at', 'desc')->get(),
             'educations' => Experience::where('type', 'education')->orderBy('created_at', 'desc')->get(),
             'work_experiences' => Experience::where('type', 'work')->orderBy('created_at', 'desc')->get(),
-            'organizations' => Experience::where('type', 'organization')->orderBy('created_at', 'desc')->get(), // INI BARIS BARU ANDA
+            'organizations' => Experience::where('type', 'organization')->orderBy('created_at', 'desc')->get(),
             'skills' => Skill::all()->groupBy('category'),
             'projects' => Project::all(),
+            'certifications' => Certification::orderBy('date', 'desc')->get(), // ← TAMBAHKAN BARIS INI
         ];
 
         if ($type == 'creative') {
