@@ -17,9 +17,10 @@
 
         <div>
             <label class="text-xs font-bold text-slate-500 uppercase">Nama Skill</label>
-            <input type="text" name="name" value="{{ $skill->name }}" class="w-full rounded-lg border-slate-300 focus:ring-indigo-500 text-sm" required>
+            <input type="text" name="name" value="{{ $skill->name }}"
+                class="w-full rounded-lg border-slate-300 focus:ring-indigo-500 text-sm" required>
         </div>
-        
+
         <div>
             <label class="text-xs font-bold text-slate-500 uppercase">Kategori</label>
             <select name="category" class="w-full rounded-lg border-slate-300 focus:ring-indigo-500 text-sm">
@@ -30,24 +31,29 @@
                 <option value="Soft Skill" {{ $skill->category == 'Soft Skill' ? 'selected' : '' }}>Soft Skill</option>
             </select>
         </div>
-        
+
         <div>
             <label class="text-xs font-bold text-slate-500 uppercase">Persentase (%)</label>
-            <input type="number" name="proficiency" value="{{ $skill->proficiency }}" class="w-full rounded-lg border-slate-300 focus:ring-indigo-500 text-sm" min="0" max="100" required>
+            <input type="number" name="proficiency" value="{{ $skill->proficiency }}"
+                class="w-full rounded-lg border-slate-300 focus:ring-indigo-500 text-sm" min="0" max="100" required>
         </div>
-        
+
         <div>
             <label class="text-xs font-bold text-slate-500 uppercase">Icon Class (Phosphor)</label>
             <div class="flex gap-2">
-                <div class="w-10 h-10 flex-shrink-0 bg-slate-100 rounded flex items-center justify-center text-xl text-slate-600">
+                <div
+                    class="w-10 h-10 flex-shrink-0 bg-slate-100 rounded flex items-center justify-center text-xl text-slate-600">
                     <i class="ph {{ $skill->icon }}"></i>
                 </div>
-                <input type="text" name="icon" value="{{ $skill->icon }}" class="w-full rounded-lg border-slate-300 focus:ring-indigo-500 text-sm" required>
+                <input type="text" name="icon" value="{{ $skill->icon }}"
+                    class="w-full rounded-lg border-slate-300 focus:ring-indigo-500 text-sm" required>
             </div>
         </div>
-        
+
         <div class="pt-2">
-            <button type="submit" class="w-full bg-indigo-600 text-white py-2 rounded-lg font-bold hover:bg-indigo-700 transition">Simpan Perubahan</button>
+            <button type="submit"
+                class="w-full bg-indigo-600 text-white py-2 rounded-lg font-bold hover:bg-indigo-700 transition">Simpan
+                Perubahan</button>
         </div>
     </form>
 </div>

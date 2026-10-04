@@ -29,7 +29,11 @@ class CoverLetterController extends Controller
         ]);
 
         $profile = Profile::first();
-        $today = date('d F Y');
+        if (!$profile) {
+            return redirect()->route('admin.dashboard')
+                ->with('error', 'Isi profil di dashboard terlebih dahulu sebelum membuat surat lamaran.');
+        }
+        $today = now()->locale('id')->translatedFormat('d F Y');
 
         // Ambil isi surat dari form
         $content = $request->letter_content;

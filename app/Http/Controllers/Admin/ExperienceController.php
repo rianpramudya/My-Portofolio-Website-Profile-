@@ -29,6 +29,7 @@ class ExperienceController extends Controller
         'type' => 'required|in:work,education,organization',
         'description' => 'required|string',
         'cv_descriptions' => 'nullable|array',
+        'cv_descriptions.*' => 'nullable|string',
     ]);
 
     $data = $request->all();
@@ -54,6 +55,7 @@ class ExperienceController extends Controller
         'type' => 'required|in:work,education,organization',
         'description' => 'required|string',
         'cv_descriptions' => 'nullable|array',
+        'cv_descriptions.*' => 'nullable|string',
     ]);
 
     $data = $request->all();

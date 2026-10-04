@@ -35,14 +35,22 @@ class DashboardController extends Controller
     // Update Profile
     public function updateProfile(Request $request)
     {
-        $request->validate([
+        $data = $request->validate([
             'name'   => 'required|string|max:255',
+            'headline' => 'sometimes|required|string|max:255',
+            'about_text' => 'sometimes|required|string',
+            'email' => 'nullable|email|max:255',
+            'cv_link' => 'nullable|url|max:2048',
+            'github_link' => 'nullable|url|max:2048',
+            'linkedin_link' => 'nullable|url|max:2048',
             'phone'  => 'nullable|string|max:20', // <--- Tambahkan validasi phone
             'avatar' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        $profile = Profile::first();
-        $data = $request->all();
+        $profile = Profile::first() ?? new Profile([
+            'headline' => 'Web Developer',
+            'about_text' => 'Deskripsi singkat...',
+        ]);
 
         // Handle Upload Foto
         if ($request->hasFile('avatar')) {
@@ -53,7 +61,7 @@ class DashboardController extends Controller
             $data['avatar'] = $request->file('avatar')->store('avatars', 'public');
         }
 
-        $profile->update($data);
+        $profile->fill($data)->save();
 
         return redirect()->back()->with('success', 'Profil berhasil diperbarui!');
     }

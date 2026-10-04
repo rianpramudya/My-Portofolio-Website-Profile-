@@ -24,21 +24,22 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::put('/profile', [DashboardController::class, 'updateProfile'])->name('profile.update');
 
     // --- RESOURCE ROUTES (CRUD) ---
-    Route::resource('projects', ProjectController::class);
-    Route::resource('experiences', ExperienceController::class);
-    Route::resource('skills', SkillController::class);
-    Route::resource('services', ServiceController::class);
-    Route::resource('certifications', CertificationController::class);
+    Route::resource('projects', ProjectController::class)->except('show');
+    Route::resource('experiences', ExperienceController::class)->except('show');
+    Route::resource('skills', SkillController::class)->except(['create', 'show']);
+    Route::resource('services', ServiceController::class)->except('show');
+    Route::resource('certifications', CertificationController::class)->except('show');
 
     // Inbox Routes
     Route::get('/contacts', [AdminContactController::class, 'index'])->name('contacts.index');
     Route::patch('/contacts/{id}/read', [AdminContactController::class, 'markAsRead'])->name('contacts.markRead');
     Route::delete('/contacts/{id}', [AdminContactController::class, 'destroy'])->name('contacts.destroy');
 
-    // --- GENERATOR ROUTES ---
+        // --- GENERATOR ROUTES ---
     // CV Generator
     Route::get('/cv', [App\Http\Controllers\Admin\CvController::class, 'index'])->name('cv.index');
     Route::post('/cv/generate', [App\Http\Controllers\Admin\CvController::class, 'generate'])->name('cv.generate');
+    Route::get('/cv/download', [App\Http\Controllers\Admin\CvController::class, 'downloadPdf'])->name('cv.download');
     // RUTE CADANGAN
     Route::get('/cv/generate', function () {
         return redirect()->route('admin.cv.index');

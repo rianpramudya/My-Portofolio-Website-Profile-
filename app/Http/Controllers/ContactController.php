@@ -10,14 +10,14 @@ class ContactController extends Controller
     public function store(Request $request)
     {
         // 1. Validasi Input
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|max:255',
             'message' => 'required|string',
         ]);
 
         // 2. Simpan ke Database
-        Contact::create($request->all());
+        Contact::create($validated);
 
         // 3. Kembali ke halaman sebelumnya dengan pesan sukses
         // Kita gunakan fragment #contact agar scroll otomatis turun ke form

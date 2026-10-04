@@ -53,14 +53,5 @@
             </button>
         </div>
 
-        <!-- Register Link -->
-        <div class="text-center pt-4 border-t border-slate-100">
-            <p class="text-sm text-slate-500">
-                Belum punya akun admin? 
-                <a href="{{ route('register') }}" class="font-bold text-indigo-600 hover:text-indigo-500 transition">
-                    Daftar disini
-                </a>
-            </p>
-        </div>
     </form>
 </x-guest-layout>

@@ -39,6 +39,7 @@ class ProjectController extends Controller
             $data['cv_descriptions'] = array_filter($data['cv_descriptions'], function($value) {
                 return !is_null($value) && $value !== '';
             });
+            $data['cv_descriptions'] = array_values($data['cv_descriptions']);
         }
 
         if ($request->hasFile('image')) {
